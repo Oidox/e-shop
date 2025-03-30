@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Интернет-магазин</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        .product-card {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+<div th:replace="~{header :: header}"></div>
+<div class="container">
+    <h1 class="my-4">Список товаров</h1>
+    <div class="row">
+        <div class="col-md-4" th:each="product : ${products}">
+            <a class="product-card-link" th:href="@{'/product/' + ${product.name}}">
+                <div class="product-card">
+                    <h4 th:text="${product.name}">Product Name</h4>
+                    <p>Цена: <span th:text="${product.price}">0.00</span></p>
+                    <p>Количество: <span th:text="${product.quantity}">0</span></p>
+                    <p>Тип продукта: <span th:text="${product.productType}">GAME</span></p>
+                </div>
+            </a>
+            <div th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                <form th:action="@{/admin/delete-product/{name}(name=${product.name})}" method="post">
+                    <button type="submit" class="btn btn-danger">Удалить</button>
+                </form>
+            </div>
+            <div th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                <form th:action="@{/admin/update-product/{name}(name=${product.name})}" method="get">
+                    <button type="submit" class="btn btn-warning">Обновить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

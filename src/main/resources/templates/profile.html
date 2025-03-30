@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Профиль</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<div th:replace="~{header :: header}"></div>
+<div class="container">
+    <h1>Профиль пользователя</h1>
+    <div class="card">
+        <div class="card-body">
+            <p><strong>Email:</strong> <span th:text="${user.email}">user@example.com</span></p>
+            <p><strong>Имя:</strong> <span th:text="${user.firstName}">Иван</span></p>
+            <p><strong>Фамилия:</strong> <span th:text="${user.lastName}">Иванов</span></p>
+            <p><strong>Баланс:</strong> $<span th:text="${user.balance}">0.00</span></p>
+            <a th:href="@{/home/profile/editProfile}" class="btn btn-primary">Редактировать профиль</a>
+        </div>
+    </div>
+    <div class="card mt-4">
+        <div class="card-header">
+            <h2>Добавить баланс</h2>
+        </div>
+        <div class="card-body">
+            <form th:action="@{/home/profile/addFunds}" method="post">
+                <div class="form-group">
+                    <label for="amount">Сумма:</label>
+                    <input type="number" id="amount" name="amount" step="0.01" class="form-control" required />
+                </div>
+                <button type="submit" class="btn btn-success">Добавить баланс</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
